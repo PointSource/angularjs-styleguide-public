@@ -1088,7 +1088,7 @@ topnav.html
 
 - **Module Dependencies**: The application root module depends on the app specific feature modules, the feature modules have no direct dependencies, the cross-application modules depend on all generic modules.
 
-![Modularity and Dependencies](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/modularity-1.png)
+![Modularity and Dependencies](https://github.com/PointSource/angularjs-styleguide-public/blob/master/assets/modularity-1.png)
 
 *Why?*: The main app module contains a quickly identifiable manifest of the application's features. 
 
@@ -1182,7 +1182,7 @@ Note: You should still test on all browsers in your environment, as appropriate 
 /*global sinon, describe, it, afterEach, beforeEach, expect, inject */
 ```
 
-![Testing Tools](https://github.com/PointSource/angularjs-styleguide/tree/master/assets/testing-tools.png)
+![Testing Tools](https://github.com/PointSource/angularjs-styleguide/blob/master/assets/testing-tools.png)
 
 **[Back to top](#table-of-contents)**
 
