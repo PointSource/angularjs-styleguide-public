@@ -1182,7 +1182,7 @@ Note: You should still test on all browsers in your environment, as appropriate 
 /*global sinon, describe, it, afterEach, beforeEach, expect, inject */
 ```
 
-![Testing Tools](https://github.com/PointSource/angularjs-styleguide/blob/master/assets/testing-tools.png)
+![Testing Tools](https://github.com/PointSource/angularjs-styleguide-public/blob/master/assets/testing-tools.png)
 
 **[Back to top](#table-of-contents)**
 
@@ -1244,7 +1244,7 @@ return loggedMsg;
 
 ## JSHint and EditorConfig
 
-- **Use an [Options File](https://github.com/PointSource/angularjs-styleguide/tree/master/assets/.jshintrc)**: Use JSHint for linting your JavaScript and be sure to customize the globals in your [JSHint options file](https://github.com/PointSource/angularjs-styleguide/tree/master/assets/.jshintrc) and include in source control. See the [JS Hint docs](http://www.jshint.com/docs/) for details on the options and see below for the ones we've chosen.
+- **Use an [Options File](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.jshintrc)**: Use JSHint for linting your JavaScript and be sure to customize the globals in your [JSHint options file](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.jshintrc) and include in source control. See the [JS Hint docs](http://www.jshint.com/docs/) for details on the options and see below for the ones we've chosen.
 - For IDE plugins and examples of setup:
 - SublimeText (2 & 3): [SublimeLinter](https://github.com/SublimeLinter/SublimeLinter-for-ST2)
 - Eclipse: [jshint-eclipse](http://github.eclipsesource.com/jshint-eclipse/)
@@ -1354,7 +1354,7 @@ Example .jshintrc file:
 ```
 - If used inside of a function, you may not need the last line turning the rule back on since it is scoped to just that function.  See the section on "Inline Configuration" in the [JSHint Docs](http://www.jshint.com/docs/).
 
-- **Use an [EditorConfig](https://github.com/PointSource/angularjs-styleguide/tree/master/assets/.editorconfig) file**:  EditorConfig helps developers define and maintain consistent coding styles between different editors and IDEs. JSHint provides warnings in editors when code violates its settings and throws errors during the build process, whereas EditorConfig automatically enforces some of those styles for you within the editor/IDE.  It is mainly used to define spacing, end-of-line, indentation styles, trimming trailing whitespace and can be set for different file types.  All of the options and example file settings can be found on the main [EditorConfig website](http://editorconfig.org), as well as links to all of the plugins available for different IDEs. WebStorm 9 now has support build in without the need of a plugin.  Unfortunately, at this time, there is not a plugin or support available for Eclipse.  *:-(*
+- **Use an [EditorConfig](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.editorconfig) file**:  EditorConfig helps developers define and maintain consistent coding styles between different editors and IDEs. JSHint provides warnings in editors when code violates its settings and throws errors during the build process, whereas EditorConfig automatically enforces some of those styles for you within the editor/IDE.  It is mainly used to define spacing, end-of-line, indentation styles, trimming trailing whitespace and can be set for different file types.  All of the options and example file settings can be found on the main [EditorConfig website](http://editorconfig.org), as well as links to all of the plugins available for different IDEs. WebStorm 9 now has support build in without the need of a plugin.  Unfortunately, at this time, there is not a plugin or support available for Eclipse.  *:-(*
 
 **[Back to top](#table-of-contents)**
 
