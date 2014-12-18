@@ -27,7 +27,7 @@ For an explanation of the .jshintrc options, check out the [JSHint Docs](http://
 1. [Services](#services)
 1. [Data Services](#data-services)
 1. [Directives](#directives)
-1. [Resolving Promises for a Controller](#resolving-promises-for-a-controller) (These recommendations have not been implemented in the Entitlement Site codebase, yet)
+1. [Resolving Promises for a Controller](#resolving-promises-for-a-controller)
 1. [Manual Dependency Injection](#manual-dependency-injection)
 1. ~~Minification and Annotation~~ (These haven't been decided upon, yet)
 1. ~~Exception Handling~~ (These haven't been decided upon, yet)
@@ -1238,7 +1238,6 @@ return loggedMsg;
 };
 }
 ```
-- Note: We do recommend using jsDoc for when practical, but haven't implemented it in the Entitlement Site codebase, yet. Some of the newer projects have started using it.
 
 **[Back to top](#table-of-contents)**
 
