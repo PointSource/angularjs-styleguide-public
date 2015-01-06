@@ -248,7 +248,7 @@ function logger () { }
 
 ## Services
 
-- **Singletons**: Services are instantiated with the `new` keyword, use `this` for public methods and variables. Can also use a factory, which we recommend for consistency. 
+- **Singletons**: Services are instantiated with the `new` keyword, use `this` for public methods and variables. 
 
 - Note: [All AngularJS services are singletons](https://docs.angularjs.org/guide/services). This means that there is only one instance of a given service per injector.
 
