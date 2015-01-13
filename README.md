@@ -23,7 +23,7 @@ For an explanation of the .jshintrc options, check out the [JSHint Docs](http://
 1. [Single Responsibility](#single-responsibility)
 1. [IIFE](#iife)
 1. [Modules](#modules)
-1. ~~Controllers~~ (These haven't been decided upon, yet)
+1. [Controllers](#controllers)
 1. [Services](#services)
 1. [Data Services](#data-services)
 1. [Directives](#directives)
@@ -243,7 +243,95 @@ angular
 function logger () { }
 ```
 
+**[Back to top](#table-of-contents)**
 
+## Controllers
+- **Bindable Members Up Top**: Place bindable members at the top of the controller, alphabetized, and not spread through the controller code.
+  
+    *Why?*: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View. 
+
+    *Why?*: Setting anonymous functions inline can be easy, but when those functions are more than 1 line of code they can reduce the readability. Defining the functions below the bindable members (the functions will be hoisted) moves the implementation details down, keeps the bindable members up top, and makes it easier to read. 
+
+    ```javascript
+    /* avoid */
+    function Sessions() {
+        var vm = this;
+
+        vm.gotoSession = function() {
+          /* ... */
+        };
+        vm.refresh = function() {
+          /* ... */
+        };
+        vm.search = function() {
+          /* ... */
+        };
+        vm.sessions = [];
+        vm.title = 'Sessions';
+    ```
+
+    ```javascript
+    /* recommended */
+    function Sessions() {
+        var vm = this;
+
+        vm.gotoSession = gotoSession;
+        vm.refresh = refresh;
+        vm.search = search;
+        vm.sessions = [];
+        vm.title = 'Sessions';
+
+        ////////////
+
+        function gotoSession() {
+          /* */
+        }
+
+        function refresh() {
+          /* */
+        }
+
+        function search() {
+          /* */
+        }
+    ```
+- **Defer Controller Logic**: Defer logic in a controller by delegating to services and factories.
+
+    *Why?*: Logic may be reused by multiple controllers when placed within a service and exposed via a function.
+
+    *Why?*: Logic in a service can more easily be isolated in a unit test, while the calling logic in the controller can be easily mocked.
+
+    *Why?*: Removes dependencies and hides implementations details from the controller.
+
+    ```javascript
+    /* avoid */
+    function Order ($http, $q) {
+      var vm = this;
+      vm.checkCredit = checkCredit;
+      vm.total = 0;
+
+      function checkCredit () { 
+        var orderTotal = vm.total;
+        return $http.get('api/creditcheck').then(function (data) {
+            var remaining = data.remaining;
+            return $q.when(!!(remaining > orderTotal));
+        });
+      };
+    }
+    ```
+
+    ```javascript
+    /* recommended */
+    function Order (creditService) {
+      var vm = this;
+      vm.checkCredit = checkCredit;
+      vm.total = 0;
+
+      function checkCredit () { 
+        return creditService.check();
+      };
+    }
+    ```
 **[Back to top](#table-of-contents)**
 
 ## Services
