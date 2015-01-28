@@ -4,15 +4,15 @@
 
 NOTE: This style guide was started from [John Papa's](https://github.com/johnpapa/angularjs-styleguide) 'AngularJS Style Guide'. This is a work in progress, and we will add or change things as we collaborate while actively implementing many of these best practices in current projects. Feedback is always welcome.
 
-The purpose of this style guide is to provide guidance on building AngularJS applications by showing the conventions we use and why we choose them. 
+The purpose of this style guide is to provide guidance on building AngularJS applications by showing the conventions we use and why we choose them.
 
 ## Community Awesomeness and Credit
 Per John Papa: "Never work in a vacuum. The AngularJS community is an incredible group who are passionate about sharing experiences. As such, a friend  and  AngularJS expert Todd Motto and I have collaborated on many styles and conventions... I encourage you to check out [Todd's  guidelines](https://github.com/toddmotto/angularjs-styleguide) to get a sense for his approach and how it compares. Many of my styles have been from the many pair programming sessions [Ward Bell](http://twitter.com/wardbell) and I have had. While we don't always agree, my friend Ward has certainly helped influence the ultimate evolution of this guide."
 
 ## Sample Files
-While this guide explains the *what*, *why* and *how*, it's usually helpful to see them in practice. This guide is accompanied by a samples of code inline below as well as sample configuration files in the [assets](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets) folder. 
+While this guide explains the *what*, *why* and *how*, it's usually helpful to see them in practice. This guide is accompanied by a samples of code inline below as well as sample configuration files in the [assets](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets) folder.
 
-Especially take note of the [.jshintrc](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.jshintrc) and [.editorconfig](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.editorconfig) files.  We highly encourage you to use both of these files and have all developers implement them in their code editor of choice. You should also set up your Gruntfile (or Gulp) to run the JSHint task during the "build" and "serve/watch" tasks (example [Gruntfile.js](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/Gruntfile.js)). 
+Especially take note of the [.jshintrc](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.jshintrc) and [.editorconfig](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/.editorconfig) files.  We highly encourage you to use both of these files and have all developers implement them in their code editor of choice. You should also set up your Gruntfile (or Gulp) to run the JSHint task during the "build" and "serve/watch" tasks (example [Gruntfile.js](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/Gruntfile.js)).
 
 Depending on the type of project, you may need to add or change some of the "globals" to ignore (i.e. "angular", "$", "jQuery", etc).  You should also have and use a .jshintrc file for your test directory, which will include more global variables to ignore like "describe", "before", "expect", etc.  See the test directory [.jshintrc file](https://github.com/PointSource/angularjs-styleguide-public/tree/master/assets/test/.jshintrc).
 
@@ -37,7 +37,7 @@ For an explanation of the .jshintrc options, check out the [JSHint Docs](http://
 1. [Modularity](#modularity)
 1. [Angular $ Wrapper Services](#angular--wrapper-services)
 1. [Testing](#testing)
-1. [Animations](#animations) 
+1. [Animations](#animations)
 1. [Comments](#comments)
 1. [JSHint](#jshint-and-editorconfig)
 1. [Constants](#constants)
@@ -49,18 +49,18 @@ For an explanation of the .jshintrc options, check out the [JSHint Docs](http://
 
 - **Rule of 1**: Define 1 component per file.  
 
-The following example defines the `app` module and its dependencies, defines a controller, and defines a factory all in the same file.  
+The following example defines the `app` module and its dependencies, defines a controller, and defines a service all in the same file.  
 
 ```javascript
 /* avoid */
 angular
 .module('app', ['ngRoute'])
 .controller('SomeController' , SomeController)
-.factory('someFactory' , someFactory);
+.service('someService' , someService);
 
 function SomeController() { }
 
-function someFactory() { }
+function someService() { }
 ```
 
 The same components are now separated into their own files.
@@ -87,18 +87,18 @@ function SomeController() { }
 ```javascript
 /* recommended */
 
-// someFactory.js
+// someService.js
 angular
 .module('app')
-.factory('someFactory' , someFactory);
+.service('someService' , someService);
 
-function someFactory() { }
+function someService() { }
 ```
 
 **[Back to top](#table-of-contents)**
 
 ## IIFE
-- **IIFE**: Wrap AngularJS components in an Immediately Invoked Function Expression (IIFE). 
+- **IIFE**: Wrap AngularJS components in an Immediately Invoked Function Expression (IIFE).
 
 *Why?*: An IIFE removes variables from the global scope. This helps prevent variables and function declarations from living longer than expected in the global scope, which also helps avoid variable collisions.
 
@@ -109,7 +109,7 @@ function someFactory() { }
 // logger.js
 angular
 .module('app')
-.factory('logger', logger);
+.service('logger', logger);
 
 // logger function is added as a global variable  
 function logger () { }
@@ -117,7 +117,7 @@ function logger () { }
 // storage.js
 angular
 .module('app')
-.factory('storage', storage);
+.service('storage', storage);
 
 // storage function is added as a global variable  
 function storage () { }
@@ -126,16 +126,16 @@ function storage () { }
 
 ```javascript
 /**
-* recommended 
+* recommended
 *
-* no globals are left behind 
+* no globals are left behind
 */
 
 // logger.js
 (function () {
 angular
 .module('app')
-.factory('logger', logger);
+.service('logger', logger);
 
 function logger () { }
 })();
@@ -144,19 +144,19 @@ function logger () { }
 (function () {
 angular
 .module('app')
-.factory('storage', storage);
+.service('storage', storage);
 
 function storage () { }
 })();
 ```
 
-- Note: For brevity only, the rest of the examples in this guide may omit the IIFE syntax. 
+- Note: For brevity only, the rest of the examples in this guide may omit the IIFE syntax.
 
 **[Back to top](#table-of-contents)**
 
 ## Modules
 
-- **Definitions (aka Setters)**: Declare modules without a variable using the setter syntax. 
+- **Definitions (aka Setters)**: Declare modules without a variable using the setter syntax.
 
 *Why?*: With 1 component per file, there is rarely a need to introduce a variable for the module.
 
@@ -209,9 +209,9 @@ function SomeController() { }
 *Why?*: A module should only be created once, then retrieved from that point and after.
 
 - Use `angular.module('app', []);` to set a module.
-- Use  `angular.module('app');` to get a module. 
+- Use  `angular.module('app');` to get a module.
 
-- **Named vs Anonymous Functions**: Use named functions instead of passing an anonymous function in as a callback. 
+- **Named vs Anonymous Functions**: Use named functions instead of passing an anonymous function in as a callback.
 
 *Why?*: This produces more readable code, is much easier to debug, and reduces the amount of nested callback code.
 
@@ -220,7 +220,7 @@ function SomeController() { }
 angular
 .module('app')
 .controller('Dashboard', function () { });
-.factory('logger', function () { });
+.service('logger', function () { });
 ```
 
 ```javascript
@@ -238,7 +238,7 @@ function Dashboard () { }
 // logger.js
 angular
 .module('app')
-.factory('logger', logger);
+.service('logger', logger);
 
 function logger () { }
 ```
@@ -247,10 +247,10 @@ function logger () { }
 
 ## Controllers
 - **Bindable Members Up Top**: Place bindable members at the top of the controller, alphabetized, and not spread through the controller code.
-  
-    *Why?*: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View. 
 
-    *Why?*: Setting anonymous functions inline can be easy, but when those functions are more than 1 line of code they can reduce the readability. Defining the functions below the bindable members (the functions will be hoisted) moves the implementation details down, keeps the bindable members up top, and makes it easier to read. 
+    *Why?*: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View.
+
+    *Why?*: Setting anonymous functions inline can be easy, but when those functions are more than 1 line of code they can reduce the readability. Defining the functions below the bindable members (the functions will be hoisted) moves the implementation details down, keeps the bindable members up top, and makes it easier to read.
 
     ```javascript
     /* avoid */
@@ -310,7 +310,7 @@ function logger () { }
       vm.checkCredit = checkCredit;
       vm.total = 0;
 
-      function checkCredit () { 
+      function checkCredit () {
         var orderTotal = vm.total;
         return $http.get('api/creditcheck').then(function (data) {
             var remaining = data.remaining;
@@ -327,7 +327,7 @@ function logger () { }
       vm.checkCredit = checkCredit;
       vm.total = 0;
 
-      function checkCredit () { 
+      function checkCredit () {
         return creditService.check();
       };
     }
@@ -336,7 +336,7 @@ function logger () { }
 
 ## Services
 
-- **Singletons**: Services are instantiated with the `new` keyword, use `this` for public methods and variables. 
+- **Singletons**: Services are instantiated with the `new` keyword, use `this` for public methods and variables.
 
 - Note: [All AngularJS services are singletons](https://docs.angularjs.org/guide/services). This means that there is only one instance of a given service per injector.
 
@@ -355,10 +355,10 @@ this.logError = function (msg) {
 ```
 
 ```javascript
-// factory
+// service
 angular
 .module('app')
-.factory('logger', logger);
+.service('logger', logger);
 
 function logger () {
 return {
@@ -373,7 +373,7 @@ logError: function (msg) {
 
 ## Data Services
 
-- **Separate Data Calls**: Refactor logic for making data operations and interacting with data to a factory. Make data services responsible for XHR calls, local storage, stashing in memory, or any other data operations.
+- **Separate Data Calls**: Refactor logic for making data operations and interacting with data to a service. Make data services responsible for XHR calls, local storage, stashing in memory, or any other data operations.
 
 *Why?*: The controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows who to ask for it. Separating the data services moves the logic on how to get it to the data service, and lets the controller be simpler and more focused on the view.
 
@@ -384,10 +384,10 @@ logError: function (msg) {
 ```javascript
 /* recommended */
 
-// dataservice factory
+// dataservice service
 angular
 .module('app.core')
-.factory('dataservice', dataservice);
+.service('dataservice', dataservice);
 
 dataservice.$inject = ['$http', 'logger'];
 
@@ -416,7 +416,7 @@ logger.error('XHR Failed for getAvengers.' + error.data);
 ```javascript
 /* recommended */
 
-// controller calling the dataservice factory
+// controller calling the dataservice service
 angular
 .module('app.avengers')
 .controller('Avengers', Avengers);
@@ -442,7 +442,7 @@ vm.avengers = data;
 return vm.avengers;
 });
 }
-}      
+}
 ```
 
 - **Return a Promise from Data Calls**: When calling a data service that returns a promise such as $http, return a promise in your calling function too.
@@ -490,9 +490,9 @@ return vm.avengers;
 **[Back to top](#table-of-contents)**
 
 ## Directives
-- **Limit 1 Per File**: Create one directive per file. Name the file for the directive. 
+- **Limit 1 Per File**: Create one directive per file. Name the file for the directive.
 
-*Why?*: It is easy to mash all the directives in one file, but difficult to then break those out so some are shared across apps, some across modules, some just for one module. 
+*Why?*: It is easy to mash all the directives in one file, but difficult to then break those out so some are shared across apps, some across modules, some just for one module.
 
 *Why?*: One directive per file is easy to maintain.
 
@@ -529,7 +529,7 @@ angular
 * @desc spinner directive that can be used anywhere across the sales app at a company named Acme
 * @file customerInfo.directive.js
 * @example <div acme-sales-customer-info></div>
-*/    
+*/
 angular
 .module('sales.widgets')
 .directive('acmeSalesCustomerInfo', salesCustomerInfo);
@@ -548,7 +548,7 @@ angular
 
 - Note: There are many naming options for directives, especially since they can be used in narrow or wide scopes. Choose one the makes the directive and it's file name distinct and clear. Some examples are below, but see the naming section for more recommendations.
 
-- **Limit DOM Manipulation**: When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the [animation services](https://docs.angularjs.org/api/ngAnimate), Angular templating, [`ngShow`](https://docs.angularjs.org/api/ng/directive/ngShow) or [`ngHide`](https://docs.angularjs.org/api/ng/directive/ngHide), then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow, but if the directive does more, combining hide and show inside a directive may improve performance as it reduces watchers. 
+- **Limit DOM Manipulation**: When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the [animation services](https://docs.angularjs.org/api/ngAnimate), Angular templating, [`ngShow`](https://docs.angularjs.org/api/ng/directive/ngShow) or [`ngHide`](https://docs.angularjs.org/api/ng/directive/ngHide), then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow, but if the directive does more, combining hide and show inside a directive may improve performance as it reduces watchers.
 
 *Why?*: DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templating)
 
@@ -608,10 +608,10 @@ function link(scope, element, attrs) {
 }
 }
 ```
-- See the 
+- See the
 **[Back to top](#table-of-contents)**
 
-## Resolving Promises for a Controller 
+## Resolving Promises for a Controller
 
 - **Controller Activation Promises**: Resolve start-up logic for a controller in an `activate` function.
 
@@ -655,7 +655,7 @@ return vm.avengers;
 
 - **Route Resolve Promises**: When a controller depends on a promise to be resolved, resolve those dependencies in the `$routeProvider` before the controller logic is executed. If you need to conditionally cancel a route before the controller is activated, use a route resolver.
 
-*Why?*: A controller may require data before it loads. That data may come from a promise via a custom factory or [$http](https://docs.angularjs.org/api/ng/service/$http). Using a [route resolve](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider) allows the promise to resolve before the controller logic executes, so it might take action based on that data from the promise.
+*Why?*: A controller may require data before it loads. That data may come from a promise via a custom service or [$http](https://docs.angularjs.org/api/ng/service/$http). Using a [route resolve](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider) allows the promise to resolve before the controller logic executes, so it might take action based on that data from the promise.
 
 ```javascript
 /* avoid */
@@ -716,7 +716,7 @@ vm.movies = moviesPrepService.movies;
 
 - **UnSafe from Minification**: Avoid using the shortcut syntax of declaring dependencies without using a minification-safe approach.
 
-*Why?*: The parameters to the component (e.g. controller, factory, etc) will be converted to mangled variables. For example, `common` and `dataservice` may become `a` or `b` and not be found by AngularJS.
+*Why?*: The parameters to the component (e.g. controller, service, etc) will be converted to mangled variables. For example, `common` and `dataservice` may become `a` or `b` and not be found by AngularJS.
 
 ```javascript
 /* avoid - not minification-safe*/
@@ -741,13 +741,13 @@ angular.module('app').controller('Dashboard', d);function d(a, b) { }
 
 *Why?*: This safeguards your dependencies from being vulnerable to minification issues when parameters may be mangled. For example, `common` and `dataservice` may become `a` or `b` and not be found by AngularJS.
 
-*Why?*: Avoid creating inline dependencies as long lists can be difficult to read in the array. Also it can be confusing that the array is a series of strings while the last item is the component's function. 
+*Why?*: Avoid creating inline dependencies as long lists can be difficult to read in the array. Also it can be confusing that the array is a series of strings while the last item is the component's function.
 
 ```javascript
 /* avoid */
 angular
 .module('app')
-.controller('Dashboard', 
+.controller('Dashboard',
 ['$location', '$routeParams', 'common', 'dataservice', Dashboard]);
 
 function Dashboard($location, $routeParams, common, dataservice) {
@@ -826,12 +826,12 @@ return movieService.getMovies();
 ## Naming
 
 - **Naming Guidelines**: Use consistent names for all components following a pattern that describes the component's feature then (optionally) its type. My recommended pattern is `feature.type.js`. There are 2 names for most assets:
-*   the file name 
+*   the file name
 *   the registered asset name with Angular
 
 *Why?*: Naming conventions help provide a consistent way to find content at a glance. Consistency within the project is vital. Consistency with a team is important. Consistency across a company provides tremendous efficiency.
 
-*Why?*: The naming conventions should simply help the findability and communication of code. 
+*Why?*: The naming conventions should simply help the findability and communication of code.
 
 - **Feature File Names**: Use consistent names for all components following a pattern that describes the component's feature then (optionally) its type. Our recommended pattern is `feature.type.js`.
 
@@ -841,7 +841,7 @@ return movieService.getMovies();
 
 ```javascript
 /**
-* common options 
+* common options
 */
 
 // Controllers
@@ -850,7 +850,7 @@ avengers.controller.js
 avengersController.js
 avengersCtrl.js
 
-// Services/Factories
+// Services
 logger.js
 logger.service.js
 loggerService.js
@@ -866,7 +866,7 @@ loggerSvc.js
 avengers.controller.js
 avengers.controller.spec.js
 
-// services/factories
+// services
 logger.service.js
 logger.service.spec.js
 
@@ -934,7 +934,7 @@ angular
 function Avengers(){ }
 ```
 
-- **Factory Names**: Use consistent names for all factories named after their feature. Use pascal-casing for service and factory names but camel-case for the functions within.
+- **Service and Factory Names**: Use consistent names for all services and factories named after their feature. Use pascal-casing for service and factory names but camel-case for the functions within.
 
 *Why?*: Provides a consistent way to quickly identify and reference controllers.
 
@@ -946,7 +946,7 @@ function Avengers(){ }
 // logger.service.js
 angular
 .module
-.factory('Logger', Logger);
+.service('Logger', Logger);
 
 function logger(){ }
 ```
@@ -960,7 +960,7 @@ function logger(){ }
 * recommended
 */
 
-// avenger.profile.directive.js    
+// avenger.profile.directive.js
 angular
 .module
 .directive('xxAvengerProfile', xxAvengerProfile);
@@ -990,7 +990,7 @@ function xxAvengerProfile(){ }
 **[Back to top](#table-of-contents)**
 
 ## Application Structure LIFT Principle
-- **LIFT**: Structure your app such that you can `L`ocate your code quickly, `I`dentify the code at a glance, keep the `F`lattest structure you can, and `T`ry to stay DRY. The structure should follow these 4 basic guidelines. 
+- **LIFT**: Structure your app such that you can `L`ocate your code quickly, `I`dentify the code at a glance, keep the `F`lattest structure you can, and `T`ry to stay DRY. The structure should follow these 4 basic guidelines.
 
 *Why LIFT?*: Provides a consistent structure that scales well, is modular, and makes it easier to increase developer efficiency by finding code quickly. Another way to check your app structure is to ask yourself: How quickly can you open and work in all of the related files for a feature?
 
@@ -1034,7 +1034,7 @@ index.html
 
 - **T-DRY (Try to Stick to DRY)**: Be DRY, but don't go nuts and sacrifice readability.
 
-*Why?*: Being DRY is important, but not crucial if it sacrifices the others in LIFT, which is why it could be called  T-DRY. We don’t want to type session-view.html for a view because, well, it’s obviously a view. If it is not obvious or by convention, then name it. 
+*Why?*: Being DRY is important, but not crucial if it sacrifices the others in LIFT, which is why it could be called  T-DRY. We don’t want to type session-view.html for a view because, well, it’s obviously a view. If it is not obvious or by convention, then name it.
 
 - Note: We modified this section as well as the 1 below (Application Structure) from the original John Papa's version, because we all agreed that 'layout' folders should be under each module and also one in the root level for shared layout like headers and footers (wrapper-type layout) if needed.
 
@@ -1046,13 +1046,13 @@ index.html
 
 - Note: Find more details and reasoning behind the structure at [this original post on application structure](http://www.johnpapa.net/angular-app-structuring-guidelines/).
 
-- **Layout**: Place files that define the layout of each main module of the application in a folder named `layout` inside of each module directory (like below example). These may include a shell view and controller may act as the container for the app, navigation, menus, content areas, and other regions. 
+- **Layout**: Place files that define the layout of each main module of the application in a folder named `layout` inside of each module directory (like below example). These may include a shell view and controller may act as the container for the app, navigation, menus, content areas, and other regions.
 
 *Why?*: Keeps the layout structure within each module/component folder for better reusability.
 
-- **Folders-by-Feature Structure**: Create folders named for the feature they represent. When a folder grows to contain more than 7 files, start to consider creating a folder for them. Your threshold may be different, so adjust as needed. 
+- **Folders-by-Feature Structure**: Create folders named for the feature they represent. When a folder grows to contain more than 7 files, start to consider creating a folder for them. Your threshold may be different, so adjust as needed.
 
-*Why?*: A developer can locate the code, identify what each file represents at a glance, the structure is flat as can be, and there is no repetitive nor redundant names. 
+*Why?*: A developer can locate the code, identify what each file represents at a glance, the structure is flat as can be, and there is no repetitive nor redundant names.
 
 *Why?*: The LIFT guidelines are all covered.
 
@@ -1069,7 +1069,7 @@ app/
 app.module.js
 app.config.js
 app.routes.js
-directives/  /* shared */      
+directives/  /* shared */
 calendar.directive.js  
 calendar.directive.html  
 user-profile.directive.js  
@@ -1090,16 +1090,16 @@ speakers.html
 speakers.controller.js
 speaker-detail.html
 speaker-detail.controller.js
-services/  /* shared */ 
+services/  /* shared */
 data.service.js  
 localstorage.service.js
-logger.service.js   
+logger.service.js
 spinner.service.js
 sessions/
 layout/
 layout.controller.js
 layout.html
-sessions.html      
+sessions.html
 sessions.controller.js
 session-detail.html
 session-detail.controller.js  
@@ -1109,7 +1109,7 @@ session-detail.controller.js
 **We highly recommend using the 'Folders by Feature Structure' described above for the majority of projects unless the project is *extremely small* and not predicted to grow/expand.**
 
 ```javascript
-/* 
+/*
 * Alternative folders-by-type.
 * We recommend "folders-by-feature", instead.
 */
@@ -1119,32 +1119,32 @@ app.module.js
 app.config.js
 app.routes.js
 controllers/
-attendees.js            
-session-detail.js       
-sessions.js             
-shell.js                
-speakers.js             
-speaker-detail.js       
-topnav.js               
-directives/       
+attendees.js
+session-detail.js
+sessions.js
+shell.js
+speakers.js
+speaker-detail.js
+topnav.js
+directives/
 calendar.directive.js  
 calendar.directive.html  
 user-profile.directive.js  
 user-profile.directive.html  
-services/       
+services/
 dataservice.js  
 localstorage.js
-logger.js   
+logger.js
 spinner.js
 views/
-attendees.html     
+attendees.html
 session-detail.html
-sessions.html      
-shell.html         
-speakers.html      
+sessions.html
+shell.html
+speakers.html
 speaker-detail.html
-topnav.html         
-``` 
+topnav.html
+```
 
 **[Back to top](#table-of-contents)**
 
@@ -1168,7 +1168,7 @@ topnav.html
 
 *Why?*: Sprints or iterations can focus on feature areas and turn them on at the end of the sprint or iteration.
 
-*Why?*: Separating feature areas into modules makes it easier to test the modules in isolation and reuse code. 
+*Why?*: Separating feature areas into modules makes it easier to test the modules in isolation and reuse code.
 
 - **Reusable Blocks are Modules**: Create modules that represent reusable application blocks for common services such as exception handling, logging, diagnostics, security, and local data stashing.
 
@@ -1178,7 +1178,7 @@ topnav.html
 
 ![Modularity and Dependencies](https://github.com/PointSource/angularjs-styleguide-public/blob/master/assets/modularity-1.png)
 
-*Why?*: The main app module contains a quickly identifiable manifest of the application's features. 
+*Why?*: The main app module contains a quickly identifiable manifest of the application's features.
 
 *Why?*: Cross application features become easier to share. The features generally all rely on the same cross application modules, which are consolidated in a single module (`app.core` in the image).
 
@@ -1186,7 +1186,7 @@ topnav.html
 
 - Note: This is a strategy for consistency. There are many good options here. Choose one that is consistent, follows AngularJS's dependency rules, and is easy to maintain and scale.
 
->> Structures may vary slightly between projects but they should all follow these guidelines for structure and modularity. The implementation may vary depending on the features and the team. In other words, don't get hung up on an exact like-for-like structure but do justify your structure using consistency, maintainability, and efficiency in mind. 
+>> Structures may vary slightly between projects but they should all follow these guidelines for structure and modularity. The implementation may vary depending on the features and the team. In other words, don't get hung up on an exact like-for-like structure but do justify your structure using consistency, maintainability, and efficiency in mind.
 
 
 **[Back to top](#table-of-contents)**
@@ -1254,11 +1254,11 @@ Note: When using Mocha, also consider choosing an assert library such as [Chai](
 
 - **Headless Browser**: Use [PhantomJS](http://phantomjs.org/) to run your tests on a server.
 
-*Why?*: PhantomJS is a headless browser that helps run your tests without needing a "visual" browser. So you do not have to install Chrome, Safaria, IE, or other browsers on your server. 
+*Why?*: PhantomJS is a headless browser that helps run your tests without needing a "visual" browser. So you do not have to install Chrome, Safaria, IE, or other browsers on your server.
 
 Note: You should still test on all browsers in your environment, as appropriate for your target audience.
 
-- **Code Analysis**: Run JSHint on your tests. 
+- **Code Analysis**: Run JSHint on your tests.
 
 **Why?*: Tests are code. JSHint can help identify code quality issues that may cause the test to work improperly.
 
@@ -1299,7 +1299,7 @@ Note: You should still test on all browsers in your environment, as appropriate 
 ```javascript
 angular
 .module('app')
-.factory('logger', logger);
+.service('logger', logger);
 
 /**
 * @name logger
@@ -1316,7 +1316,7 @@ return service;
 /**
 * @name logError
 * @desc Logs errors
-* @param {String} msg Message to log 
+* @param {String} msg Message to log
 * @returns {String}
 */
 function logError(msg) {
@@ -1359,7 +1359,7 @@ Example .jshintrc file:
 "es3": false,               // false: Code does NOT need to adhere to ECMAScript 3 specification
 "forin": true,              // true: Require filtering for..in loops with obj.hasOwnProperty()
 "freeze": true,             // true: Prohibits overwriting prototypes of native objects such as Array, Date and so on.
-"immed": true,              // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`             
+"immed": true,              // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`
 "indent": 4,                // {int} Number of spaces to use for indentation
 "latedef": "nofunc",        // true: Require variables/functions to be defined before being used; "nofunc" will allow function declarations to be ignored.
 "newcap": true,             // true: Require capitalization of all constructor functions e.g. `new F()`
@@ -1378,21 +1378,21 @@ Example .jshintrc file:
 "asi": false,               // false: Warn about missing semicolons (true tolerates missing semicolons)
 "boss": false,              // false: Don't suppress warnings about the use of assignments in cases where comparisons are expected (true allows them)
 "debug": false,             // false: Warn about debugger statements e.g. browser breakpoints. (true allows them)
-"eqnull": true,             // true: Tolerate use of `== null`     
+"eqnull": true,             // true: Tolerate use of `== null`
 "esnext": false,            // false: Don't allow ES.next (ES6) syntax (ex: `const`)
 "evil": false,              // false: Warn about use of `eval` and `new Function()`
 "expr": false,              // false: Warn about the use of expressions where normally you would expect to see assignments or function calls.
 "funcscope": false,         // false: Warn about defining variables inside control statements
-"globalstrict": false,      // false: Don't allow global "use strict" 
+"globalstrict": false,      // false: Don't allow global "use strict"
 "iterator": false,          // false: Warn about using the `__iterator__` property
 "lastsemic": false,         // false: Warn when omitting a semicolon for the last statement of a 1-line block
 "laxbreak": false,          // false: Warn about possibly unsafe line breakings
-"laxcomma": false,          // false: Warn about comma-first style coding      
+"laxcomma": false,          // false: Warn about comma-first style coding
 "loopfunc": true,           // true: Tolerate functions being defined in loops
 "maxerr": false,            // false: Doesn't set a maximum number of errors before stopping. Default is 50. {int} Maximum error before stopping
 "moz": false,               // false: Don't allow Mozilla specific syntax (extends and overrides esnext features)
 "multistr": false,          // false: Don't tolerate multi-line strings
-"notypeof": false,          // false: Warn about invalid typeof operator values 
+"notypeof": false,          // false: Warn about invalid typeof operator values
 "proto": false,             // false: Warn about using the __proto__ property.
 "scripturl": false,         // false: Warn about script-targeted URLs
 "shadow": false,            // false: Warn about re-defined variables later in code
@@ -1478,13 +1478,13 @@ Open an issue first to discuss potential changes/additions. If you have question
 
 
 - **Process**
-1. Discuss the changes in an Issue. 
+1. Discuss the changes in an Issue.
 1. Open a Pull Request, reference the issue, and explain the change and why it adds value.
 1. The Pull Request will be evaluated and either merged or declined.
 
 ## License
 
-- **tldr;** Use this guide. Attributions are appreciated, but not required. 
+- **tldr;** Use this guide. Attributions are appreciated, but not required.
 
 #### (The MIT License)
 
